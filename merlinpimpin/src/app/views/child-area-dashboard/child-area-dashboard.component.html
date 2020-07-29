@@ -1,0 +1,26 @@
+<!--Display child areas with permission : admin or follower-->
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Vos espaces enfant</h2>
+    
+    <div class="list-group">
+      <button
+        class="list-group-item"
+        *ngFor="let childArea of childAreas; let i = index"
+        (click)="onViewChild(childArea)">
+        <h3 class="list-group-item-heading">
+          {{ childArea.nom }}
+          <!--<button class="btn btn-default pull-right" (click)="$event.stopPropagation();onDeleteChild(childArea)">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>-->
+        </h3>
+        <p class="list-group-item-text">{{ childArea.dueDate }}</p>
+      </button>
+    </div>
+    <div  
+      *ngIf='!this.childAreaDashboardService.isLoaded'>
+      <app-loader></app-loader>
+    </div>
+    <button class="btn btn-primary" (click)="onNewChild()">Nouvel espace enfant</button>
+  </div>
+</div>

@@ -13,8 +13,11 @@ export const UserConverter = {
             lastName: user.lastName,
             // parent: childArea.parent,
             firstName : user.firstName,
-            emailAdress : user.emailAdress
-            }
+            emailAdress : user.emailAdress,
+            pseudo: user.pseudo,
+            avatarUrl: user.avatarUrl,
+            photoUrl: user.photoUrl
+          }
     },
     fromFirestore: function(snapshot : any, options : any){
         const data = snapshot.data(options);
@@ -23,6 +26,9 @@ export const UserConverter = {
         user.lastName = data.lastName;
         user.firstName = data.firstName;
         user.emailAdress = data.emailAdress;
+        user.pseudo = data.pseudo;
+        user.avatarUrl = data.avatarUrl;
+        user.photoUrl = data.photoUrl;
         return user;
         
     }
@@ -75,6 +81,7 @@ export class UserService {
         let user: User = new User();
         user.id = userId
         user.firstName = firstName
+        user.pseudo = firstName + lastName.substring(0,1);
         user.lastName = lastName
         user.emailAdress = email;
         firebase.firestore().collection('user').doc(userId).withConverter(UserConverter).set(user).then(

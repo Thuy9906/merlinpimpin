@@ -1,0 +1,47 @@
+<div 
+  class="miniature-container"
+  [class.transparent]="this.miniatureStyle === 'transparent'"
+  [class.neumorphic]="this.miniatureStyle === 'neumorphic'"
+  [class.outline]="this.miniatureStyle === 'outline'"
+  [ngStyle]="{
+      'min-width': this.width + 'px',
+      'height': this.height + 'px',
+      'border-radius': this.borderRadius + 'px',
+      'margin': this.margin + 'px'}">
+
+  <!-- Placeholder, for positionning purposes -->
+  <div 
+    class="miniature-placeholder">
+  </div>
+
+  <!-- Label -->
+  <div
+    class="miniature-label">
+    
+    <!-- Title -->
+    <div
+      class="miniature-label-title">
+      {{ this.label }}
+    </div>
+    
+    <!-- Sub-title, if any -->
+    <div
+      *ngIf="this.subLabel !== ''"
+      class="miniature-label-subtitle">
+      {{ this.subLabel }}
+    </div>
+    
+  </div>
+  
+  <!-- Miniature photo -->
+  <div 
+    class="miniature-photo-container">
+    <img 
+      [src]="this.photoUrl" 
+      class="miniature-photo"
+      [ngStyle]="{
+        'width': this.height + 'px',
+        'height': this.height + 'px'}"/>
+  </div>
+
+</div>

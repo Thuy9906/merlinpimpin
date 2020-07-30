@@ -1,0 +1,29 @@
+<div
+  class="neumorphic-button-container"
+  [class.column]="this.labelPosition === 'bottom'"
+  [class.row]="this.labelPosition === 'right'">
+
+  <div 
+    class="neumorphic-button"
+    [ngStyle]="{
+      'min-width': this.size + 'px',
+      'height': this.size + 'px',
+      'border-radius': this.size * 1/2 + 'px',
+      'padding': this.size * 1/6 + 'px'}">
+    
+    <!-- Icon -->
+    <square-icon
+      [size]="this.size * 2/3"
+      [iconPackage] = "this.iconPackage"
+      [icon]="this.icon">
+    </square-icon>
+    
+  </div>
+  
+  <div
+    class="neumorphic-button-label">
+    {{ this.label }}
+  </div>
+  
+</div>
+

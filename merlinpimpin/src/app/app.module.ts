@@ -25,7 +25,19 @@ import { UserService } from './services/user.service';
 import { ChildAreaFormComponent } from './views/child-area-dashboard/child-area-form/child-area-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { GiftComponent } from './views/child-area-dashboard/child-area/birth-list/gift/gift.component';
+
 import { LoaderComponent } from './common/loader/loader.component';
+import { CardComponent } from './common/card/card.component';
+import { UserCardComponent } from './common/user-card/user-card.component';
+import { ButtonComponent } from './common/button/button.component';
+import { MiniatureComponent } from './common/miniature/miniature.component';
+import { SpinnerComponent } from './common/spinner/spinner.component';
+import { InteractiveInputComponent } from './common/interactive-input/interactive-input.component';
+import { ActiveImageComponent } from './common/active-image/active-image.component';
+import { SquareIconComponent } from './common/square-icon/square-icon.component';
+import { StringPickerComponent } from './common/string-picker/string-picker.component';
+import { UserPickerComponent } from './common/user-picker/user-picker.component';
+import { UploadService } from './services/upload.service';
 
 const appRoutes: Routes = [
   { path: 'auth/signup', component: SignupComponent },
@@ -56,7 +68,17 @@ const appRoutes: Routes = [
     SearchbarComponent,
     ChildAreaFormComponent,
     GiftComponent,
-    LoaderComponent
+    LoaderComponent,
+    CardComponent,
+    UserCardComponent,
+    ButtonComponent,
+    MiniatureComponent,
+    SpinnerComponent,
+    InteractiveInputComponent,
+    ActiveImageComponent,
+    SquareIconComponent,
+    StringPickerComponent,
+    UserPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +87,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthService, BirthListService, AuthGuardService, FirstNamesService, ChildAreaDashboardService, ChildAreaService, UserService],
+  providers: [UploadService, AuthService, BirthListService, AuthGuardService, FirstNamesService, ChildAreaDashboardService, ChildAreaService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,26 @@
+.string-picker-user-list{
+  margin-top:10px;
+}
+
+.miniature-overlay{
+  cursor:pointer;
+  
+  opacity:0;
+  z-index:5;
+  
+  position:relative;
+  
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  
+  width:100%;
+  
+  background-color: rgba(0,0,0,0.6);
+}
+
+  .miniature-overlay:hover{
+    opacity:1;
+  }
+

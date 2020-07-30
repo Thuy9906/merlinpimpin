@@ -1,0 +1,36 @@
+<!-- Case Loading -->
+<div 
+  *ngIf="this.loadingStatus === 0"
+  class="loading-spinner"
+  [ngStyle]="{
+    'border': this.getBorderSize() + 'px solid transparent',
+    'border-top': this.getBorderSize() + 'px solid ' + this.color,
+    'width': this.size + 'px',
+    'height': this.size + 'px'}">
+</div>
+
+<!-- Case Success -->
+<square-icon
+  *ngIf="this.loadingStatus === 1"
+  [icon]="'%'"
+  [size]="this.size"
+  [color]="'green'"
+  [iconPackage]="'modern-icon'">
+</square-icon>
+
+<!-- Case failure -->
+<square-icon
+  *ngIf="this.loadingStatus === 2"
+  [icon]="'X'"
+  [size]="this.size"
+  [color]="'red'"
+  [iconPackage]="'modern-icon'">
+</square-icon>
+
+<!-- Placeholder -->
+<div 
+  *ngIf="this.loadingStatus === -1"
+  [ngStyle]="{
+    'width': this.size + 'px',
+    'height': this.size + 'px'}">
+</div>

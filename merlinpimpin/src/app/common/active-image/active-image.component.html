@@ -1,0 +1,43 @@
+<div 
+  class="active-image-container"
+  [ngStyle]="{
+    'border-radius': this.containerBorderRadius + 'px',
+    'width': this.containerWidth + 'px',
+    'height': this.containerHeight + 'px'}">
+  <img 
+    [src]="this.imageSrc" 
+    class="active-image-image"
+    [ngStyle]="{
+      'width': this.containerWidth + 'px',
+      'height': this.containerHeight + 'px'}"/>
+    
+  <div
+    class="active-image-overlay"
+    [class.focus]="this.onFocus"
+    [ngStyle]="{
+      'top': '-' + this.containerHeight + 'px'}">
+    
+    <div 
+      class="active-image-icons">
+      <div
+        *ngIf="this.hasUploadButton"
+        class="active-image-icon modern-icon">
+        V
+        <input
+          type="file"
+          class="active-image-upload-input"
+          (change)="this.onChangeImage($event)"
+          accept="image/*"/>
+      </div>
+      <div 
+        class="active-image-icon modern-icon">
+        v
+      </div>
+    </div>
+    
+    <spinner
+      [loadingStatus]="this.imageLoadingStatus">
+    </spinner>
+       
+  </div>
+<div>

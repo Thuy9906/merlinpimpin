@@ -1,0 +1,65 @@
+.active-image-container{
+  overflow:hidden;
+}
+
+  .active-image-container .active-image-image{
+    object-fit: cover;
+  }
+  
+  .active-image-overlay{
+    opacity: 0;
+      
+    position:relative;
+    width:100%;
+    height:100%;
+      
+    background-color:rgba(0,0,0,0);
+    color:white;
+    font-size:40px;
+      
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+    
+    .active-image-container:hover .active-image-overlay, .active-image-overlay.focus{
+      opacity:1;
+      
+      background-color:rgba(0,0,0,0.5);
+    }
+    
+    
+  .active-image-icons{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+  }
+  
+  .active-image-icon{    
+    margin:5px;
+    
+    width:40px;
+    height:40px;    
+    
+    text-align:center;
+    
+    line-height:22px;
+    
+    cursor:pointer;
+  }
+  
+    .active-image-icon:hover{
+      
+      background-color:rgba(255,255,255,0.2);
+    }
+  
+  .active-image-upload-input{
+    opacity:0;
+    position:relative;
+    top:-40px;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+  }

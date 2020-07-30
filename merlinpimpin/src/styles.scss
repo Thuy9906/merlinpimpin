@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'modern-icons';
+  src: url('assets/font/modernpics.otf');
+}
+
+@font-face {
+  font-family: 'simple-icons';
+  src: url('assets/font/entypo.otf');
+}
+
+@font-face {
+  font-family: 'pacifico';
+  src: url('assets/font/pacifico.ttf');
+}
+
+.modern-icon {
+  font-family: modern-icons;
+}
+
+.simple-icon {
+  font-family: simple-icons;
+}

@@ -1,0 +1,23 @@
+.string-picker-container {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+}
+
+.string-picker-item {
+  cursor:pointer;
+  
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-right: 6px;
+  padding-left:6px;
+}
+
+  .string-picker-item:hover {
+    background-color:rgba(0,0,0,0.1);
+  }
+  
+  .string-picker-item.selected {
+    background-color:tomato;
+  }

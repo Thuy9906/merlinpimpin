@@ -5,17 +5,34 @@
         <a routerLink="child-dashboard">Espaces enfant</a>
       </li>
     </ul>
+    
     <ul class="nav navbar-nav navbar-right">
       <li routerLinkActive="active" *ngIf="!isAuth">
         <a routerLink="auth/signup">Créer un compte</a>
       </li>
+      
       <li routerLinkActive="active" *ngIf="!isAuth">
         <a routerLink="auth/signin">Connexion</a>
       </li>
+      
       <li *ngIf="isAuth">
         <a (click)="onSignOut()"
            style="cursor:pointer">Déconnexion</a>
       </li>
+    </ul>
+    
+    <ul class="nav navbar-nav">
+        <li>
+          <a>{{this.userService.user.firstName}}</a>
+        </li> 
+        
+        <li>
+          <a>{{this.userService.user.lastName}} </a>
+        </li>
+        
+        <li>
+          <a>{{this.userService.user.emailAdress}}</a>
+        </li>
     </ul>
   </div>
 </nav>

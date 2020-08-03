@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ChildArea } from '../../../models/child-area.model';
-import { ChildAreaDashboardService } from '../../../services/child-area-dashboard.service';
+import { ChildArea } from '../../models/child-area.model';
+import { ChildAreaDashboardService } from '../../services/child-area-dashboard.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class ChildAreaFormComponent implements OnInit {
   childAreaForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private childAreaDashboardService: ChildAreaDashboardService,
-              private router: Router) { }
+              private router: Router) {console.log('building child area form') }
               
   ngOnInit() {
     this.initForm();
@@ -29,8 +29,9 @@ export class ChildAreaFormComponent implements OnInit {
   
   onSaveChildArea() {
     const dueDate = this.childAreaForm.get('dueDate').value;
+    const name = this.childAreaForm.get('name').value;
     this.childAreaDashboardService.createChildArea(new ChildArea(dueDate, name));
-    this.router.navigate(['/child-dashboard']);
+    this.router.navigate(['/child-area-dashboard']);
   }
 }
 

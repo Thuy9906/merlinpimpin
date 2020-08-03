@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Gift } from '../models/birth-list/gift.model';
+import { Gift } from '../models/baby-registry/gift.model';
 import * as firebase from 'firebase';
 import { ChildAreaService } from './child-area.service';
 import { ChildArea } from '../models/child-area.model';
@@ -7,16 +7,14 @@ import { ChildArea } from '../models/child-area.model';
 @Injectable({
   providedIn: 'root'
 })
-export class BirthListService {
+export class BabyRegistryService {
   
-  public birthList : Gift[] = [];
+  public babyRegistry : Gift[] = [];
   
   constructor( public childAreaService: ChildAreaService) {
-  //  
-  this.childAreaService.childAreaSubject.subscribe(
+    this.childAreaService.childAreaSubject.subscribe(
       (childArea: ChildArea) => {
-        this.birthList = childArea.birthList;
-        console.log('birth list in birth list service : ' + this.birthList);
+        this.babyRegistry = childArea.babyRegistry;
       }
     );
   }
@@ -34,10 +32,9 @@ export class BirthListService {
   addGiftItemOnServer(gift : Gift) {
     return new Promise (
       (resolve, reject) =>{
-      console.log('add gift item to: ' + this.childAreaService.childArea.id);
-      firebase.firestore().collection('child-dashboard').doc(this.childAreaService.childArea.id).update(
+      firebase.firestore().collection('child-area-dashboard').doc(this.childAreaService.childArea.id).update(
           {
-             'birthList' : firebase.firestore.FieldValue.arrayUnion(giftConverter.toFirestore(gift))
+             'babyRegistry' : firebase.firestore.FieldValue.arrayUnion(giftConverter.toFirestore(gift))
           }).then(
         () => {
             resolve()
@@ -64,7 +61,7 @@ export const giftConverter = {
             image : gift.image,            
             }
     },
-    fromFirestore: function(snapshot, options){
+    fromFirestore: function(snapshot : any, options : any){
         const data = snapshot.data(options);
         let gift = new Gift(data.item, data.quantity);
         gift.brand = data.brand;

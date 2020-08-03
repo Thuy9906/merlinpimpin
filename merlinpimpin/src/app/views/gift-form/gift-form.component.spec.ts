@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BirthListFormComponent } from './birth-list-form.component';
+import { GiftFormComponent } from './gift-form.component';
 
-describe('BirthListFormComponent', () => {
-  let component: BirthListFormComponent;
-  let fixture: ComponentFixture<BirthListFormComponent>;
+describe('GiftFormComponent', () => {
+  let component: GiftFormComponent;
+  let fixture: ComponentFixture<GiftFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BirthListFormComponent ]
+      declarations: [ GiftFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BirthListFormComponent);
+    fixture = TestBed.createComponent(GiftFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

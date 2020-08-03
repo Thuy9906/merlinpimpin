@@ -14,11 +14,14 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class ChildAreaDashboardService {
-  public isLoaded = false;
-  private childAreas: ChildArea[] = [];
-  public childAreasSubject = new Subject<ChildArea[]>();
+  public ischildAreasManagedLoaded = false;
+  public ischildAreasFollowedLoaded = false;
+  private childAreasManaged: ChildArea[] = [];
+  private childAreasFollowed: ChildArea[] = [];
+  public childAreasManagedSubject = new Subject<ChildArea[]>();
+  public childAreasFollowedSubject = new Subject<ChildArea[]>();
 
-  constructor(private childAreaService: ChildAreaService, private userService : UserService) {
+  constructor(private childAreaService: ChildAreaService, public userService : UserService) {
     
     this.userService.userSubject.subscribe(
       () => {
@@ -30,32 +33,30 @@ export class ChildAreaDashboardService {
     this.userService.emitUser()
   }
   
-  emitChildAreas() {
-    this.childAreasSubject.next(this.childAreas);
+  public emitChildAreasManaged() {
+    this.childAreasManagedSubject.next(this.childAreasManaged);
   }
   
+  public emitChildAreasFollowed() {
+    this.childAreasFollowedSubject.next(this.childAreasFollowed);
+  }
   
-  createChildArea(newChildArea: ChildArea) {
+  public createChildArea(newChildArea: ChildArea) {
     this.createChildAreaOnServer(newChildArea).then(
       () =>{
-        this.childAreas.push(newChildArea);
+        this.childAreasManaged.push(newChildArea);
       }
     );
   }
   
-  
-  /*
-    @param childArea
-    @return Promise
-  */
   private  createChildAreaOnServer(newChildArea: ChildArea) {
     return new Promise (
       (resolve, reject) =>{
-      firebase.firestore().collection('child-dashboard').doc(newChildArea.id).withConverter(childAreaConverter).set(newChildArea).then(
+      firebase.firestore().collection('child-area-dashboard').doc(newChildArea.id).withConverter(childAreaConverter).set(newChildArea).then(
         () => {          
 //        Set current user's permission as admin
           this.childAreaService.addAdmin(this.userService.user.id, newChildArea.id);
-          this.emitChildAreas;
+          this.emitChildAreasManaged();
         resolve();
         }, (error) => {
         reject(error);
@@ -69,41 +70,28 @@ export class ChildAreaDashboardService {
    * Refreshes childAreas attribute and emit the associated subject
   */
    
-  refreshChildAreas(){
-    this.isLoaded = false;
-    this.childAreas = [];
-    let isComplete: boolean  = false;
-    
+  private refreshChildAreas(){
+    this.ischildAreasManagedLoaded = false;
+    this.ischildAreasFollowedLoaded = false;
+    this.childAreasManaged = [];
+    this.childAreasFollowed = [];
+        
     // Retrieve child areas managed
     this.getChildAreasManaged().then((result: ChildArea[]) => {
         result.forEach(element=>{
-            this.childAreas.push(element)
+            this.childAreasManaged.push(element)
           });
-          
-        // If loading is complete, emit subject
-        if (isComplete) {
-          this.emitChildAreas();
-          this.isLoaded = true;
-        }
-        
-        // Set isComplete
-        isComplete = true;
+        this.ischildAreasManagedLoaded = true;        
+        this.emitChildAreasManaged();       
       });
       
     // Retrieve child areas followed
     this.getChildAreasFollowed().then((result: ChildArea[]) => {
         result.forEach(element=>{
-            this.childAreas.push(element)
+            this.childAreasFollowed.push(element)
           });
-          
-        // If loading is complete, emit subject
-        if (isComplete) {
-          this.emitChildAreas();
-          this.isLoaded = true;
-        }
-        
-        // Set isComplete
-        isComplete = true;
+        this.ischildAreasFollowedLoaded = true;
+        this.emitChildAreasFollowed();
       });
   }
   
@@ -113,7 +101,7 @@ export class ChildAreaDashboardService {
   
   private getChildAreasManaged(): Promise<ChildArea[]> {
     return new Promise((resolve) => {
-         firebase.firestore().collection('child-dashboard')
+         firebase.firestore().collection('child-area-dashboard')
           .withConverter(childAreaConverter)
           .where('admin', '==', this.userService.user.id)
           .get()
@@ -134,10 +122,8 @@ export class ChildAreaDashboardService {
    */
   
   private getChildAreasFollowed(): Promise<ChildArea[]> {
-    console.log("REQUEST");
-    console.log(this.userService.user.id);
     return new Promise((resolve) => {
-         firebase.firestore().collection('child-dashboard')
+         firebase.firestore().collection('child-area-dashboard')
           .withConverter(childAreaConverter)
           .where('members', 'array-contains', this.userService.user.id)
           .get()
@@ -153,31 +139,13 @@ export class ChildAreaDashboardService {
       });   
   }
  
-  
-  /*getSingleChildArea(id: number) {
-    return new Promise ((resolve) => {
-      firebase.firestore().collection('child-dashboard').doc(id.toString()).get().then((childAreaSnapshot: DocumentSnapshot) => {
-        if (childAreaSnapshot.exists) {
-            console.log("Document data:", childAreaSnapshot.data());
-            resolve(childAreaSnapshot);
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
-    });    
-  }
- 
-
   removeChildAreaOnServer(childAreaToRemove: ChildArea) {
     return new Promise (
       (resolve, reject) =>{
-        firebase.firestore().collection('child-dashboard').doc(childAreaToRemove.id.toString()).delete().then(
+        firebase.firestore().collection('child-area-dashboard').doc(childAreaToRemove.id.toString()).delete().then(
           () => {
             console.log(childAreaToRemove.id);
-            this.emitChildAreas();
+            this.emitChildAreasManaged();
             resolve();            
           },
           (error) => {
@@ -192,43 +160,15 @@ export class ChildAreaDashboardService {
   removeChildArea(childAreaToRemove: ChildArea){
     this.removeChildAreaOnServer(childAreaToRemove).then(
       () =>{
-        const childIndexToRemove = this.childAreas.findIndex(
+        const childIndexToRemove = this.childAreasManaged.findIndex(
           (childAreaEl) => {
             if(childAreaEl === childAreaToRemove) {
               return true;
             }
           }
         );
-        this.childAreas.splice(childIndexToRemove, 1);
+        this.childAreasManaged.splice(childIndexToRemove, 1);
       }
     );    
-  }*/
+  }
 }
-
-
-  
-  /*private getChildAreasOnServer(): Promise<ChildArea[]> {
-    return new Promise((resolve) => {
-         firebase.database().ref('/child-dashboard').on('value', (childAreaSnapshot: DataSnapshot) => {
-              let result: ChildArea[] = [];
-              childAreaSnapshot.forEach(function(childSnapshot) {
-                    // childData will be the actual contents of the child
-                    result.push(childSnapshot.val());
-                });
-              resolve(result);
-            }
-          );
-      });
-  }*/
-  
-  /*return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref('/child-dashboard/' + id).once('value').then(
-          (data: DataSnapshot) => {
-            resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );*/

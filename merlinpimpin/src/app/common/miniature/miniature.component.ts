@@ -55,6 +55,12 @@ export class MiniatureComponent implements OnInit {
   @Input() margin: number = 10;
   
   /**
+   * Tells if miniature is clickable or not
+   * true by default
+   */
+  @Input() clickable: boolean = true;
+  
+  /**
    * Style of the miniature
    * Can be: transparent; neumorphic; outline
    * Transparent by default

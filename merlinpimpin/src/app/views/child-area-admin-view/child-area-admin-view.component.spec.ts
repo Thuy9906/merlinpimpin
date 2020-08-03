@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BabyRegistryComponent } from './baby-registry.component';
+import { ChildAreaAdminViewComponent } from './child-area-admin-view.component';
 
-describe('BabyRegistryComponent', () => {
-  let component: BabyRegistryComponent;
-  let fixture: ComponentFixture<BabyRegistryComponent>;
+describe('ChildAreaAdminViewComponent', () => {
+  let component: ChildAreaAdminViewComponent;
+  let fixture: ComponentFixture<ChildAreaAdminViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BabyRegistryComponent ]
+      declarations: [ ChildAreaAdminViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BabyRegistryComponent);
+    fixture = TestBed.createComponent(ChildAreaAdminViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

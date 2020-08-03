@@ -2,8 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChildAreaService } from 'src/app/services/child-area.service';
-import { BirthListService } from 'src/app/services/birth-list.service';
-//import { User } from 'src/app/models/user.model';
+//import { BabyRegistryService } from 'src/app/services/baby-registry.service';
 
 @Component({
   selector: 'app-child-area',
@@ -12,15 +11,14 @@ import { BirthListService } from 'src/app/services/birth-list.service';
 })
 export class ChildAreaComponent implements OnInit {
 
-  constructor(public childAreaService: ChildAreaService, private route : ActivatedRoute, private birthListService : BirthListService, 
+  constructor(public childAreaService: ChildAreaService, private route : ActivatedRoute, 
+              //private babyRegistryService : BabyRegistryService, 
               private router: Router) {}
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
-    console.log(id);
     if (!this.childAreaService.isLoaded() || this.childAreaService.childArea.id !== id) {
       this.childAreaService.refresh(id);
-      console.log('refreshed');
     }
   }
 
@@ -29,16 +27,14 @@ export class ChildAreaComponent implements OnInit {
   }*/
   
   onDisplayBirthList(){
-    console.log('new birth list');
-    this.router.navigate(['/child-dashboard', 'view', this.childAreaService.childArea.id, 'birth-list']);
+    this.router.navigate(['/child-area-dashboard', 'view', this.childAreaService.childArea.id, 'baby-registry']);
   }
   
   onDisplayLastNames(){
-    console.log('new last names');
-    this.router.navigate(['/child-dashboard', 'view', this.childAreaService.childArea.id, 'first-names']);
+    this.router.navigate(['/child-area-dashboard', 'view', this.childAreaService.childArea.id, 'first-names']);
   }
-  
-  onAddMember(){
     
+  toto(word : string){
+    console.log(word);
   }
 }

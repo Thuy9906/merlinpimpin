@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { ChildArea } from '../models/child-area.model';
 import { Subject } from 'rxjs';
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +14,71 @@ export class ChildAreaService {
 
   public childArea: ChildArea;
   
+  /** 
+   * Resolved members of the currently loaded child area
+   * Whenever child area is modified or refreshed, list of members is also refreshed accordingly
+   */
+  public resolvedMembers: User[] = [];
+  
+  public admin : User = new User();
+  
+  public areMembersLoaded: boolean = false;
+  
+  public isAdminLoaded: boolean = false;
+  
   public childAreaSubject = new Subject<ChildArea>();
   
-  constructor() { }
+  constructor(private userService : UserService) { }
   
   ngOnInit(){    
     
   }
   
+  private resolveAdmin(){
+    this.userService.getUserByIdOnServer(this.childArea.admin).then(
+      (result : User) => {
+        this.admin = result;
+        this.isAdminLoaded = true;
+      }
+    )
+  }
+  
   public refresh(id: string){
     // Open a connexion toward the new child area on SDB
-    console.log('cestlid!!!!!' + id);
-    firebase.firestore().collection('child-dashboard').doc(id).withConverter(childAreaConverter).onSnapshot({
+    firebase.firestore().collection('child-area-dashboard').doc(id).withConverter(childAreaConverter).onSnapshot({
         // Listen for document metadata changes
         includeMetadataChanges: true
     },(childAreaSubject) => {        
-      console.log('here');
-      console.log(childAreaSubject.data())
       this.childArea = childAreaSubject.data();
+      console.log(this.childArea);
+      this.refreshMembers();    
+      this.resolveAdmin();
       this.emitChildAreaSubject();
-      console.log('child area service rfreshed !!!!!!!S')
     });
+  }
+  
+  public refreshMembers(){
+    
+    // Reset resolved members
+    this.resolvedMembers = [];    
+    // In case there is no members to resolve, tell that members are loaded
+    if(this.childArea.members.length === 0){
+      this.areMembersLoaded = true;
+    }
+    
+    // Resolve each member of the newly refreshed child area
+    this.childArea.members.forEach(element=>{
+      this.userService.getUserByIdOnServer(element).then(
+          (result : User) => {
+            this.resolvedMembers.push(result);
+            
+            // Identify when all memebrs are first resolved
+            if(this.childArea.members.length === this.resolvedMembers.length){
+              this.areMembersLoaded = true;
+            }
+          });
+        });
+    
   }
   
   public isLoaded(): boolean {
@@ -47,8 +93,7 @@ export class ChildAreaService {
   public addAdmin(participantUserId : string, childAreaId : string) {
      return new Promise (
       (resolve, reject) =>{
-      console.log('add role to: ' + childAreaId + ' for user ' + participantUserId);
-      firebase.firestore().collection('child-dashboard').doc(childAreaId).update(
+      firebase.firestore().collection('child-area-dashboard').doc(childAreaId).update(
           {
              "admin": participantUserId            
              //'birthList' : firebase.firestore.FieldValue.arrayUnion(giftConverter.toFirestore(gift))
@@ -92,7 +137,7 @@ export const childAreaConverter = {
             name: childArea.name,
             dueDate: childArea.dueDate,
             firstNameProposals : childArea.firstNameProposals,
-            birthList : childArea.birthList,
+            babyRegistry : childArea.babyRegistry,
             admin : childArea.admin,
             members : childArea.members
             }
@@ -101,7 +146,7 @@ export const childAreaConverter = {
         const data = snapshot.data(options);
         let childArea = new ChildArea(data.dueDate, data.name);
         childArea.id = data.id;
-        childArea.birthList = data.birthList;
+        childArea.babyRegistry = data.babyRegistry;
         childArea.firstNameProposals = data.firstNameProposals;
         childArea.admin = data.admin;
         childArea.members = data.members;

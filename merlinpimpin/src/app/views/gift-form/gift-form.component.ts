@@ -1,21 +1,22 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Gift } from '../../../../../models/birth-list/gift.model';
-import { BirthListService } from '../../../../../services/birth-list.service';
+import { Gift } from '../../models/baby-registry/gift.model';
+import { BabyRegistryService } from '../../services/baby-registry.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-birth-list-form',
-  templateUrl: './birth-list-form.component.html',
-  styleUrls: ['./birth-list-form.component.scss']
+  selector: 'app-gift-form',
+  templateUrl: './gift-form.component.html',
+  styleUrls: ['./gift-form.component.scss']
 })
-export class BirthListFormComponent implements OnInit {
+export class GiftFormComponent implements OnInit {
   
   childAreaId : string;
   birthListForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private birthListService: BirthListService,
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, 
+              private babyRegistryService: BabyRegistryService,
               private router: Router) { }
               
   ngOnInit() {    
@@ -41,8 +42,8 @@ export class BirthListFormComponent implements OnInit {
     const newGift = new Gift(item, quantity);
     newGift.price = price;
     newGift.brand = brand;
-    this.birthListService.addGiftItemOnServer(newGift);
-    this.router.navigate(['/child-dashboard', 'view', this.childAreaId, 'birth-list']);
+    this.babyRegistryService.addGiftItemOnServer(newGift);
+    this.router.navigate(['/child-area-dashboard', 'view', this.childAreaId, 'baby-registry']);
   }
 }
 

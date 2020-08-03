@@ -30,6 +30,11 @@ export class UserPickerComponent implements OnInit {
   @Input() initialSelectedUsers: User[] = [];
   
   /**
+   * List of users which cannot be selected
+   */
+  @Input() excludedUsers: User[] = [];
+  
+  /**
    * Max number of result for a user search
    */
   @Input() searchMaxNumber: number = 5;
@@ -115,7 +120,7 @@ export class UserPickerComponent implements OnInit {
 
   ngOnInit(): void {
     // Set selected users
-    this.selectedUsers = this.initialSelectedUsers;
+    this.selectedUsers = [...this.initialSelectedUsers];
     
     // Launch search
     this.search('');
@@ -167,6 +172,8 @@ export class UserPickerComponent implements OnInit {
     
     // Else if item is not, select it
     else {
+      console.log('Selected users before:')
+      console.log(this.selectedUsers);
       this.addUserOnServer(user)
         .then(() => {
           // Tell it is not loading anymore
@@ -176,11 +183,16 @@ export class UserPickerComponent implements OnInit {
           // Add to list of selected user
           this.selectedUsers.push(user);
           
+          
+          
           // Flip view
           this.isFlipped = false;
           
           // Relaunch search
           this.search(this.lastSearch);
+          
+          console.log('Selected users after:')
+          console.log(this.selectedUsers);
           
         }).catch(() => {
           // Tell it is not loading anymore
@@ -198,7 +210,7 @@ export class UserPickerComponent implements OnInit {
    */
   public search(inputValue: string) {
     this.isSearching = true;
-    this.searchUsersOnServer(this.searchMaxNumber, inputValue, this.selectedUsers)
+    this.searchUsersOnServer(this.searchMaxNumber, inputValue, this.selectedUsers.concat(this.excludedUsers))
       .then((result: User[]) => {
           this.proposedUsers = result;
           this.isSearching = false;

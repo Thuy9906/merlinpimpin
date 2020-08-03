@@ -4,12 +4,14 @@
   justify-content: space-between;
   align-items:center;
   
-  cursor:pointer;
-
   color: #5b7480;
 
   overflow:hidden;
 }
+
+  .miniature-container.clickable{
+    cursor:pointer;
+  }
 
   .miniature-container.neumorphic {
     box-shadow:  8px 8px 11px #b5babe, 

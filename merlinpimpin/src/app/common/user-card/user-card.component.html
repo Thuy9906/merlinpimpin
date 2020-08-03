@@ -1,0 +1,30 @@
+<card
+  [size]="'medium'"
+  [isLoading]="this.user === null">
+  <div 
+    *ngIf="this.user !== null"
+    class="user-card-body">
+    
+    <active-image
+      *ngIf="this.user.avatarUrl !== null && this.user.avatarUrl !== ''"
+      [hasUploadButton]="false"
+      [imageSrc]="this.user.avatarUrl"
+      [containerWidth]="200"
+      [containerHeight]="200">
+    </active-image>
+    
+    <div
+      class="user-name">
+      {{this.user.pseudo}}
+    </div>
+    
+    <miniature
+      [photoUrl]="this.user.avatarUrl"
+      [label]="'Soupe Pho'">
+    </miniature>
+    
+    <div class="user-custom">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</card> 

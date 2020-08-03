@@ -1,0 +1,17 @@
+<div 
+  class="string-picker-container"
+  [ngStyle]="(this.containerWidth !== '') && {
+      'width' : this.containerWidth
+    }">
+  
+  <div
+    *ngFor="let item of this.items"
+    class="string-picker-item"
+    [class.selected]="this.selectedItems.includes(item)"
+    [ngStyle]="{
+        'font-size' : this.fontSize + 'px'
+      }"
+    (click)="this.onClickItem(item)">
+    {{ item }}
+  </div>
+</div>

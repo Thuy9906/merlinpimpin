@@ -1,0 +1,26 @@
+.neumorphic-button-container {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+  .neumorphic-button-container.column {
+    flex-direction:column;
+  }
+  
+  .neumorphic-button-container.row {
+    flex-direction:row;
+  }
+  
+.neumorphic-button {
+  cursor:pointer;
+   
+  box-shadow:  5px 5px 10px #b3b8bc, 
+             -5px -5px 10px #ffffff;
+             
+  background: linear-gradient(145deg, #f2f9ff, #cbd2d6);
+  
+  margin:10px;
+  
+  overflow:hidden;
+}

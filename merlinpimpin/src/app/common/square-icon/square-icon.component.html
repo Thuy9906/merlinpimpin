@@ -1,0 +1,14 @@
+<div
+  class="square-icon-container"
+  [ngStyle]="{
+      'width': this.size + 'px',
+      'height': this.size + 'px',
+      'font-size': this.getFontSize() + 'px',
+      'line-height': this.getLineHeight() + 'px',
+      'color': this.color
+    }">
+  <span
+    class="{{ this.iconPackage }}">
+    {{ icon }}
+  </span>
+</div>

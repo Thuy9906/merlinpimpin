@@ -1,0 +1,30 @@
+:host{
+  font-size:20px;
+}
+
+.interactive-input{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:center;
+}
+
+  .interactive-input-label{
+    margin-right:20px;
+  }
+
+  .interactive-input-input{
+    border:none;
+    background: transparent;
+  }
+    
+    .interactive-input-input:focus{
+      outline:none;
+    }
+
+  .edit-markup{
+    margin-right:20px;
+    cursor:pointer;
+  }
+    
+    

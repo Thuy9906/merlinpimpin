@@ -1,0 +1,29 @@
+<div class="interactive-input">
+  <div 
+    *ngIf="this.inputLabel !== ''"
+    class="interactive-input-label"
+    [ngStyle]="{
+        'width': this.inputLabelWidth
+      }">
+    {{ this.inputLabel }}
+  </div>
+
+  <input 
+    type="text" 
+    id="{{ this.inputId }}" 
+    class="interactive-input-input" 
+    placeholder="{{ this.getPlaceholder() }}" 
+    (blur)="this.onBlurInput($event)"/>
+  
+  <square-icon
+    class="modern-icon edit-markup"
+    (click)="this.onClickEditMarkup(this.inputId)"
+    [icon]="'e'"
+    [size]="25"
+    [iconPackage]="'modern-icon'">
+  </square-icon>
+  
+  <spinner
+    [loadingStatus]="this.sdbLoadingStatus">
+  </spinner>
+</div>

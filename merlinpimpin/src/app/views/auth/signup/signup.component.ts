@@ -27,6 +27,7 @@ export class SignupComponent implements OnInit {
     this.signupForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
+      pseudo: ['', [Validators.required]],
       firstName : [''],
       lastName : ['']
     });
@@ -35,12 +36,13 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     const email = this.signupForm.get('email').value;
     const password = this.signupForm.get('password').value;
+    const pseudo = this.signupForm.get('pseudo').value;
     const firstName = this.signupForm.get('firstName').value;
     const lastName = this.signupForm.get('lastName').value;
     
     this.authService.createNewAuth(email, password).then(
       () => {
-        this.userService.createUser(this.authService.authInfos.userId, email, firstName, lastName).then(
+        this.userService.createUser(this.authService.authInfos.userId, email, pseudo, firstName, lastName).then(
           () => {
           }, (error) => {
           (error);

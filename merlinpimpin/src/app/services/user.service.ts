@@ -13,8 +13,11 @@ export const UserConverter = {
             lastName: user.lastName,
             // parent: childArea.parent,
             firstName : user.firstName,
-            emailAdress : user.emailAdress
-            }
+            emailAdress : user.emailAdress,
+            pseudo: user.pseudo,
+            avatarUrl: user.avatarUrl,
+            photoUrl: user.photoUrl
+          }
     },
     fromFirestore: function(snapshot : any, options : any){
         const data = snapshot.data(options);
@@ -23,6 +26,9 @@ export const UserConverter = {
         user.lastName = data.lastName;
         user.firstName = data.firstName;
         user.emailAdress = data.emailAdress;
+        user.pseudo = data.pseudo;
+        user.avatarUrl = data.avatarUrl;
+        user.photoUrl = data.photoUrl;
         return user;
         
     }
@@ -32,11 +38,13 @@ export const UserConverter = {
   providedIn: 'root'
 })
 export class UserService {
+  
   user : User = new User();
+ 
+  
   userSubject = new Subject<User>();
 
   constructor(private authService : AuthService) {
-    console.log('building user service');
 //    // In case authentication is already over, directly refresh connected user
 //    if(this.authService.authInfos.isAuth){
 //      this.refreshUser(this.authService.authInfos.userId);
@@ -60,21 +68,21 @@ export class UserService {
   }
   
   public refreshUser(userId: string){
-    this.getUser(userId).then(
+    this.getUserByIdOnServer(userId).then(
       (result : User) => {
-        console.log('user heeeere')
         console.log(result);
         this.user = result;
         this.emitUser();
       });
   }
   
-  public createUser(userId : string, email : string, firstName : string, lastName : string){
+  public createUser(userId : string, email : string, pseudo : string, firstName : string, lastName : string){
     return new Promise (
       (resolve, reject) =>{
         let user: User = new User();
         user.id = userId
         user.firstName = firstName
+        user.pseudo = pseudo;
         user.lastName = lastName
         user.emailAdress = email;
         firebase.firestore().collection('user').doc(userId).withConverter(UserConverter).set(user).then(
@@ -89,7 +97,7 @@ export class UserService {
     );
   }
  
-  getUser(id: string) {
+  getUserByIdOnServer(id: string) {
     return new Promise(
       (resolve, reject) => {
         firebase.firestore().collection('user').doc(id).withConverter(UserConverter).get().then(

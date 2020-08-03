@@ -1,0 +1,133 @@
+<div 
+  class="string-picker-container"
+  [ngStyle]="(this.containerWidth !== '') && {
+      'width' : this.containerWidth
+    }">
+
+  <!-- Front of the component UI. Display all selected user, which can be removed from selection -->
+  <div 
+    *ngIf="!this.isFlipped"
+    class="string-picker-front">
+    
+    <!-- Selected users clickable miniatures -->
+    <div
+      *ngFor="let user of this.selectedUsers"
+      class="string-picker-user"
+      [ngStyle]="{
+          'margin-bottom': -this.userSize + 'px'
+        }">
+      
+      <miniature
+        [label]="user.firstName"
+        [subLabel]="'@' + user.pseudo"
+        [photoUrl]="user.avatarUrl"
+        [miniatureStyle]="'transparent'"
+        [height]="this.userSize"
+        [width]="this.containerWidth"
+        [borderRadius]="0"
+        [margin]="0">
+      </miniature>
+      
+      <div
+        class="miniature-overlay"
+        (click)="this.onClickUser(user)"
+        [ngStyle]="{
+            'top': -this.userSize + 'px',
+            'height': this.userSize + 'px'
+          }">
+        <square-icon
+          *ngIf="!this.userLoading.includes(user)"
+          class="miniature-overlay-icon"
+          [size]="this.userSize * 1/2"
+          [icon]="'['"
+          [color]="'white'">
+        </square-icon>
+        <spinner
+          *ngIf="this.userLoading.includes(user)"
+          [size]="this.userSize * 1/2">
+        </spinner>
+      </div>
+    </div>
+    
+    <neumorphic-button
+      [size]="30"
+      [iconPackage]="'modern-icon'"
+      [icon]="'s'"
+      (click)="this.isFlipped = !this.isFlipped">
+    </neumorphic-button>
+    
+  </div>
+  
+  
+  <!-- Back component UI. Display user search so that users can be selected -->
+  <div 
+    class="string-picker-back"
+    *ngIf="this.isFlipped">
+    
+    <div id="search-bar">
+    
+      <input
+        placeholder="Cherche des cuisiniers"
+        type="search"
+        id="name"
+        class="form-control"
+        (keydown.enter)="this.search($event.target.value)">
+      </div>
+      
+      <app-loader
+        *ngIf="this.isSearching">
+      </app-loader>
+      
+      <div
+        *ngIf="!this.isSearching && this.proposedUsers.length !== 0"
+        class="string-picker-user-list">
+        <div
+          *ngFor="let user of this.proposedUsers"
+          class="string-picker-user"
+          [ngStyle]="{
+              'margin-bottom': -this.userSize + 'px'
+            }">
+          
+          <miniature
+            [label]="user.firstName"
+            [subLabel]="'@' + user.pseudo"
+            [photoUrl]="user.avatarUrl"
+            [miniatureStyle]="'transparent'"
+            [height]="this.userSize"
+            [width]="this.containerWidth"
+            [borderRadius]="0"
+            [margin]="0">
+          </miniature>
+          
+          <div
+            class="miniature-overlay"
+            (click)="this.onClickUser(user)"
+            [ngStyle]="{
+                'top': -this.userSize + 'px',
+                'height': this.userSize + 'px'
+              }">
+            <square-icon
+              *ngIf="!this.userLoading.includes(user)"
+              class="miniature-overlay-icon"
+              [size]="this.userSize * 1/2"
+              [icon]="'Z'"
+              [color]="'white'">
+            </square-icon>
+            <spinner
+              *ngIf="this.userLoading.includes(user)"
+              [size]="this.userSize * 1/2">
+            </spinner>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div
+        *ngIf="!this.isSearching && this.proposedUsers.length === 0"
+        class="string-picker-user-list">
+        Aucun cuisinier trouvé       
+      </div>
+    
+  </div>
+
+</div>

@@ -1,0 +1,68 @@
+<div class="row">
+  <!-- In case child area is not loaded yet, display a spinner to wait -->
+  <div  
+    *ngIf='!this.childAreaService.isLoaded()'>
+    <app-loader></app-loader>
+  </div>
+  
+  <!-- In case ok, display child area -->
+  <div  
+    *ngIf='this.childAreaService.isLoaded()'
+        class="col-xs-12">
+    <h1>Bienvenue dans mon espace </h1>
+    
+    <interactive-input
+      [placeholder]="this.childAreaService.childArea.name"
+      [altPlaceholder]="'Entre le nom de l\'espace enfant'"
+      [inputId]="'chil-area-name-input'"
+      [inputLabel]="'Nom de l\'espace enfant'"
+      [sdbDocNode]="'child-area-dashboard/' + this.childAreaService.childArea.id"
+      [sdbProperty]="'name'">
+    </interactive-input>
+    
+    <h3>Date prévue d'accouchement : {{ this.childAreaService.childArea.dueDate }}</h3>
+    <p>Admin du compte : {{ this.childAreaService.childArea.admin}}</p>
+    <!--<button class="btn btn-default" (click)="onDelete()">Supprimer</button>-->
+    <button class="btn btn-default" (click)="onDisplayBabyRegistry()">Ajouter ou voir une liste de naissance</button>
+    <button class="btn btn-default" (click)="onDisplayLastNames()">Ajouter ou voir une liste de prénom</button>
+    <div> Gérer les membres
+      <user-picker
+        *ngIf="this.childAreaService.areMembersLoaded && this.childAreaService.isAdminLoaded"
+        [containerWidth]="'300px'"
+        [initialSelectedUsers]="this.childAreaService.resolvedMembers"
+        [sdbUserCollection]="'user'"
+        [excludedUsers] = "[this.childAreaService.admin]"
+        [sdbDocNode]="'child-area-dashboard/' + this.childAreaService.childArea.id"
+        [sdbProperty]="'members'">
+      </user-picker>
+    </div>
+    <square-icon
+      [iconPackage]="'simple-icon'"
+      [icon]="'D'"
+      [color]="'tomato'"
+      [size]="100">
+    </square-icon>
+    
+    <neumorphic-button
+      [iconPackage]="'simple-icon'"
+      [icon]="'D'"
+      [size]="100"
+      [label]="'Take picture!'">
+    </neumorphic-button>
+    
+    <string-picker
+      [items]="['toto', 'tata', 'bibi']"
+      (selectItem)="this.toto($event)">
+    </string-picker>
+    
+    <div
+      *ngIf="this.childAreaService.isLoaded">
+      <user-card
+        *ngFor="let member of this.childAreaService.resolvedMembers"
+        [user]="member">
+      </user-card>
+    </div>
+      
+    
+  </div>
+</div>

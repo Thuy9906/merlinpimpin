@@ -1,0 +1,40 @@
+:host {
+  margin:10px;
+   
+  box-shadow:  8px 8px 11px #b5babe, 
+             -8px -8px 11px #ffffff;
+  border-radius:30px;
+  
+  display:flex;
+  flex-direction:column;
+  justify-content: space-evenly;
+  align-items:center;
+  
+  background: #e2e9ee;
+  
+  overflow:hidden;
+}
+
+  :host(.big){ 
+    width:500px;
+    min-height:500px;
+  }
+  
+  :host(.medium){
+    width:200px;
+    min-height:300px;
+  }
+  
+  :host(.small){
+    width:100px;
+    min-height:200px;
+  }
+  
+
+
+@media all and (max-width: 800px)  {
+  :host(.medium){
+    width:90%;
+  }
+}
+  

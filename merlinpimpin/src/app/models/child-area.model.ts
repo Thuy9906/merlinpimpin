@@ -1,5 +1,5 @@
 import { FirstNameProposal } from './first-names/first-names.model';
-import { Gift } from './birth-list/gift.model';
+import { Gift } from './baby-registry/gift.model';
 
 
 //Child area model
@@ -14,9 +14,9 @@ export class ChildArea {
   
   //List of firstnames proposed by child area admin
   firstNameProposals: FirstNameProposal[] = [];
-  
+    
   //Birthlist with items proposed by child area admin
-  birthList: Gift[] = [];
+  babyRegistry: Gift[] = [];
   
   //Members connected to child area referenced by id
   members: string[] = [];
